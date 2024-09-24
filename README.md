@@ -16,6 +16,7 @@
     ![realm-image](realm-image.png)
 3. `Manage` - `Users` 탭에서 사용할 유저 생성
     - Email 입력 및 Email verified `On`
-4. `hello-world.localtest.me/hello/1` / `hello-world.localtest.me/hello/2` / `hi-world.localtest.me/hi/1` / `hi-world.localtest.me/hi/2` 중 진입하고자 하는 api 호출
+4. 메인 landing page 접속 - `landing.localtest.me/` <br>
+   4-1. 혹은 바로 서비스 url로 진입 가능 <br> `hello-world.localtest.me/hello/1` / `hello-world.localtest.me/hello/2` / `hi-world.localtest.me/hi/1` / `hi-world.localtest.me/hi/2` 
 5. 생성한 유저로 인증
 6. hello <-> hi 서버 번갈아가면서 호출 가능함 확인
