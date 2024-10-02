@@ -29,6 +29,7 @@ services:
       hello-server: {}
       hi-server: {}
       oauth2-proxy: {}
+      authentication-server: {}
       nginx-main: 
         aliases:
           - landing.localtest.me
@@ -36,6 +37,7 @@ services:
       - keycloak
       - hello-server
       - hi-server
+      - authentication-server
 
   hello-server:
     container_name: hello-server-8080
@@ -56,6 +58,19 @@ services:
       hi-server:
         aliases:
           - hi-server.localtest.me
+
+  authentication-server:
+    container_name: authentication-server-8080
+    image: jyyoon0615/authentication-server:8080
+    ports:
+      - 8088:8080
+    environment:
+      OAUTH2_PROXY_URL: http://oauth2-proxy:4180/oauth2/userinfo
+    networks:
+      authentication-server:
+        aliases:
+          - authentication-server.localtest.me
+      oauth2-proxy: {}
 
   keycloak:
     container_name: keycloak
@@ -104,3 +119,4 @@ networks:
   hello-server: {}
   hi-server: {}
   oauth2-proxy: {}
+  authentication-server: {}
