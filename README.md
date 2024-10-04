@@ -29,7 +29,7 @@
         - idType은 `ALL` / `HI` / `NONE` 3가지가 있으며, `ALL`은 Hi, Hello 모든 서버 접근 가능, `Hi`는 Hi 서버만 접근 가능, `NONE`은 모든 서버 접근 불가능.
         - 편의상 GET Mapping으로 업데이트 진행
 5. 메인 landing page 접속 - `landing.localtest.me/` <br>
-   4-1. 혹은 바로 서비스 url로 진입 가능 <br> `hello-world.localtest.me/hello/1` / `hello-world.localtest.me/hello/2` / `hi-world.localtest.me/hi/1` / `hi-world.localtest.me/hi/2` 
+   5-1. 혹은 바로 서비스 url로 진입 가능 <br> `hello-world.localtest.me/hello/1` / `hello-world.localtest.me/hello/2` / `hi-world.localtest.me/hi/1` / `hi-world.localtest.me/hi/2` 
 6. 생성한 유저로 인증 및 권한에 맞는 서버에 요청하여 권한 확인
 
 ## 추가 세팅
