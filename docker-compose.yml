@@ -14,8 +14,9 @@ services:
       keycloak: {}
       nginx-main: {}
       oauth2-proxy: {}
+      keycloak-test-network: {}
     depends_on:
-      - nginx-main
+      - keycloak
 
   nginx-main:
     container_name: nginx-main
@@ -25,19 +26,32 @@ services:
     volumes:
       - ./nginx-main.conf:/etc/nginx/conf.d/default.conf
       - ./landing.html:/usr/share/nginx/html/landing.html
+      - ./permission_denied.html:/usr/share/nginx/html/permission_denied.html
     networks:
-      hello-server: {}
-      hi-server: {}
       oauth2-proxy: {}
-      authentication-server: {}
       nginx-main: 
         aliases:
           - landing.localtest.me
+      keycloak-test-network: {}
     depends_on:
-      - keycloak
-      - hello-server
-      - hi-server
-      - authentication-server
+      - oauth2-proxy
+  
+  nginx-authentication:
+    container_name: nginx-authentication
+    image: nginx:1.21.5-alpine
+    ports:
+      - 81:80
+    volumes:
+      - ./nginx-authentication.conf:/etc/nginx/conf.d/default.conf
+      - ./permission_denied.html:/usr/share/nginx/html/permission_denied.html
+    networks:
+      hello-server: {}
+      hi-server: {}
+      authentication-server: {}
+      oauth2-proxy: {}
+      keycloak-test-network: {}
+    depends_on:
+      - oauth2-proxy
 
   hello-server:
     container_name: hello-server-8080
@@ -48,6 +62,7 @@ services:
       hello-server:
         aliases:
           - hello-server.localtest.me
+      keycloak-test-network: {}
 
   hi-server:
     container_name: hi-server-8080
@@ -58,18 +73,24 @@ services:
       hi-server:
         aliases:
           - hi-server.localtest.me
+      keycloak-test-network: {}
 
   authentication-server:
     container_name: authentication-server-8080
     image: jyyoon0615/authentication-server:8080
     ports:
-      - 8088:8080
+      - 8080:8080
     environment:
       OAUTH2_PROXY_URL: http://oauth2-proxy:4180/oauth2/userinfo
+      ID_ALLOWED_ALL: 5f5cbf35-8f39-422f-9b36-d5b94dcd6733
+      ID_ALLOWED_HI: 0fa64399-8d11-4d00-9d22-67452f9edede
+      ID_ALLOWED_NONE: 65a0e380-197b-4ca3-9940-c777f6c40b4c
+      COOKIE_NAME: _oauth2_proxy
     networks:
       authentication-server:
         aliases:
           - authentication-server.localtest.me
+      keycloak-test-network: {}
       oauth2-proxy: {}
 
   keycloak:
@@ -96,6 +117,7 @@ services:
       keycloak:
         aliases:
           - keycloak.localtest.me
+      keycloak-test-network: {}
     depends_on:
       - keycloak-db
 
@@ -111,7 +133,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
-      keycloak: {}
+      # keycloak: {}
+      keycloak-test-network: {}
 
 networks:
   keycloak: {}
@@ -120,3 +143,4 @@ networks:
   hi-server: {}
   oauth2-proxy: {}
   authentication-server: {}
+  keycloak-test-network: {}
