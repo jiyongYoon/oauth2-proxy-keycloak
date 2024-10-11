@@ -1,0 +1,35 @@
+### token 발급 POST {host}/realms/{realm명}/protocol/openid-connect/token
+POST http://keycloak.localtest.me:9080/realms/oauth2-proxy/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+// grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}
+grant_type=client_credentials&client_id=admin-user-api&client_secret=wYoZhJCzgUWexvRQzo1oyQHxyMgRzSoI
+
+> {% client.global.set("token", response.body.access_token) %}
+
+### 유저리스트 조회 GET {host}/admin/realms/{realm명}/users
+GET http://keycloak.localtest.me:9080/admin/realms/oauth2-proxy/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 유저생성 POST {host}/admin/realms/{realm명}/users
+POST http://keycloak.localtest.me:9080/admin/realms/oauth2-proxy/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "testuser",
+  "enabled": true,
+  "emailVerified": true
+}
+
+### 패스워드변경(최초등록도) PUT {host}/admin/realms/oauth2-proxy/users/{user_id}/reset-password
+PUT http://keycloak.localtest.me:9080/admin/realms/oauth2-proxy/users/2c163d7e-2bdc-4f45-b7fd-3fd002b77386/reset-password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "temporary": false,
+  "type": "password",
+  "value": "test"
+}
