@@ -119,6 +119,7 @@ services:
       - '--metrics-enabled=true'
     volumes:
       - ./keycloak:/opt/keycloak/data/import
+      - ./themes/wizcloud:/opt/keycloak/themes/wizcloud
     environment:
       KC_HTTP_PORT: 9080
       KEYCLOAK_ADMIN: admin
